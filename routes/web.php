@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,20 +19,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello', function () {
-return 'Hello World';
-});
+Route::get ('/hello', [WelcomeController::class,'hello']);
 
 
 Route::get('/world', function () {
 return 'World';
 });
 
-Route::get('/', function () {
+Route::get('/index', function () {
     return 'Selamat datang';
     });
 
-    Route::get('/about', function () {
+Route::get('/about', function () {
         return '2341760147 Zacky';
         });
 
@@ -47,7 +47,10 @@ Route::get('/articles/{id}', function
 ($id) {
 return 'Halaman artikel dengan id'. $id;
 });
-
-Route::get('/user/{name?}', function ($name='John') {
-    return 'Nama saya '.$name;
-    });
+Route::resource('photos', PhotoController::class);
+Route::resource('photos', PhotoController::class)->only([
+    'index', 'show'
+    ]);
+    Route::resource('photos', PhotoController::class)->except([
+    'create', 'store', 'update', 'destroy'
+    ]);
